@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "docker-registry",
-      "port": 80,
+      "port": 5000,
       "health": "true",
       "poll": 10,
       "ttl": 25
