@@ -5,13 +5,8 @@ log:
 storage:
   cache:
     blobdescriptor: inmemory
-  s3:
-    accesskey: {{ env "S3ACCESSKEY" }}
-    secretkey: {{ env "S3SECRETKEY" }}
-    region: {{ env "S3REGION" }}
-    bucket: {{ env "S3BUCKET" }}
-    encrypt: false
-    secure: false
+  filesystem:
+    rootdirectory: /var/lib/registry
 http:
   addr: :5000
   headers:
