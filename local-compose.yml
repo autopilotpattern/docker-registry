@@ -16,6 +16,7 @@ registry:
   restart: never
   environment:
     - CONSUL=consul
+    - CONSUL_AGENT=0
   links:
     - consul:consul
   ports:
@@ -29,6 +30,7 @@ nginx:
   restart: never
   environment:
     - CONSUL=consul
+    - CONSUL_AGENT=0
   links:
     - consul:consul
   ports:
