@@ -1,6 +1,6 @@
 {
   "consul": "{{ if .CONSUL_AGENT }}localhost{{ else }}{{ .CONSUL }}{{ end }}:8500",
-  "preStart": "/usr/local/bin/containerpilot.sh preStart",
+  "preStart": "/usr/local/bin/manage.sh preStart",
   "services": [
     {
       "name": "docker-registry",
