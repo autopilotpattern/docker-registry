@@ -19,7 +19,7 @@ registry:
   links:
     - consul:consul
   ports:
-    - 80:80
+    - 5000:5000
 
 nginx:
   extends:
@@ -32,4 +32,4 @@ nginx:
   links:
     - consul:consul
   ports:
-    - 5000:5000
+    - 80:80
