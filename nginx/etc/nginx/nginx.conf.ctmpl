@@ -6,6 +6,8 @@ events {
 
 http {
 
+    {{ $acme_domain := env "ACME_DOMAIN" }}
+
     {{ if service "docker-registry" }}
     upstream docker-registry {
         # write the address:port pairs for each healthy docker-registry node
@@ -40,6 +42,12 @@ http {
             allow 127.0.0.1;
             deny all;
         }
+
+        {{ if $acme_domain }}
+        location /.well-known/acme-challenge {
+            alias /var/www/acme/challenge;
+        }
+        {{ end }}
 
         {{ if service "docker-registry" }}
         location /v2/ {
