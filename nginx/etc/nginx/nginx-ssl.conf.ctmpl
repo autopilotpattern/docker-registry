@@ -47,12 +47,6 @@ http {
         listen       443 ssl;
         server_name  _;
 
-        # disable any limits to avoid HTTP 413 for large image uploads
-        client_max_body_size 0;
-
-        # required to avoid HTTP 411: see Issue #1486 (https://github.com/docker/docker/issues/1486)
-        chunked_transfer_encoding on;
-
         location /nginx-health {
             stub_status;
             allow 127.0.0.1;
@@ -73,6 +67,12 @@ http {
         ssl_stapling on;
         ssl_stapling_verify on;
         add_header Strict-Transport-Security max-age=15768000;
+
+        # disable any limits to avoid HTTP 413 for large image uploads
+        client_max_body_size 0;
+
+        # required to avoid HTTP 411: see Issue #1486 (https://github.com/docker/docker/issues/1486)
+        chunked_transfer_encoding on;
 
         {{ if service "docker-registry" }}
         location /v2/ {

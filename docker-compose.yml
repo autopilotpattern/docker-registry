@@ -17,7 +17,7 @@ consul:
   dns:
     - 127.0.0.1
   labels:
-    - triton.cns.services=docker-registry-s3-consul
+    - triton.cns.services=docker-registry-consul
     - com.docker.swarm.affinities=["container!=~*"]
 
 # Our Docker registry
@@ -32,7 +32,7 @@ registry:
   environment:
     - CONSUL_AGENT=1
   labels:
-    - triton.cns.services=docker-registry-s3-registry
+    - triton.cns.services=docker-registry
     - com.docker.swarm.affinities=["container!=~*registry*"]
 
 # Nginx as a load-balancing tier and reverse proxy
@@ -48,5 +48,5 @@ nginx:
   environment:
     - CONSUL_AGENT=1
   labels:
-    - triton.cns.services=docker-registry-s3-nginx
+    - triton.cns.services=docker-registry-nginx
     - com.docker.swarm.affinities=["container!=~*nginx*"]
