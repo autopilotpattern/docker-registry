@@ -12,8 +12,14 @@ consul:
   restart: always
   mem_limit: 128m
   env_file: _env
-  ports:
+  expose:
+    - 53
+    - 8300
+    - 8301
+    - 8302
+    - 8400
     - 8500
+    - 9090
   dns:
     - 127.0.0.1
   labels:
@@ -25,7 +31,7 @@ registry:
   image: misterbisson/docker-registry-s3:latest
   restart: always
   mem_limit: 128m
-  ports:
+  expose:
     - 5000
     - 9090
   env_file: _env
@@ -43,6 +49,7 @@ nginx:
   ports:
     - 80
     - 443
+  expose:
     - 9090
   env_file: _env
   environment:
