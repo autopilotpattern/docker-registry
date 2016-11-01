@@ -22,17 +22,24 @@ preStart() {
     echo "generated htpasswd file in auth/nginx.htpasswd"
     htpasswd -b -c /etc/nginx/conf.d/nginx.htpasswd "${REGISTRYUSER}" "${REGISTRYPASS}"
 
-    # Drop a key/value item in Consul for this user/pass
-    # Future feature: allow management of users via Consul k/v store, but for now it's still a single user
-    echo 'Registring users in Consul'
+    echo 'Registering users in Consul'
     CONSULRESPONSIVE=0
     while [ $CONSULRESPONSIVE != 1 ]; do
         echo -n '.'
 
+        # Set the docker-registry/use-passwords key
+        # This is used as a switch in the nginx.conf.ctmpl
         curl --fail -Lso /dev/null \
             -X PUT \
-            -d "${REGISTRYPASS}" \
-            "${CONSUL}:8500/v1/kv/docker-registry/users/${REGISTRYUSER}"
+            -d 1 \
+            "${CONSUL}:8500/v1/kv/docker-registry/use-passwords"
+
+        # Drop a key/value item in Consul for this user/pass
+        # Future feature: allow management of users via Consul k/v store, but for now it's still a single user
+        curl --fail -Lso /dev/null \
+           -X PUT \
+           -d "${REGISTRYPASS}" \
+           "${CONSUL}:8500/v1/kv/docker-registry/users/${REGISTRYUSER}"
 
         if [ $? -eq 0 ]
         then

@@ -102,7 +102,7 @@ http {
                 return 404;
             }
 
-            {{if key "docker-registry/users" | parseBool}}
+            {{if key "docker-registry/use-passwords" | parseBool}}
             # Note: when consul-template in the base image is upgraded to v0.17 or newer
             # we'll need to change the above conditional to `if key_exists "docker-registry/users"`
             auth_basic "Autopilot Pattern Docker Registry realm";
