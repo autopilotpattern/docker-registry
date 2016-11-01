@@ -39,15 +39,6 @@ http {
         least_conn;
     }{{ end }}
 
-    map $status $isError {
-        ~^2 0;
-        default 1;
-    }
-
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
     ## Set a variable to help us decide if we need to add the
     ## 'Docker-Distribution-Api-Version' header.
     ## The registry always sets this header.
@@ -111,8 +102,9 @@ http {
                 return 404;
             }
 
-            {{ if key_exists "docker-registry/users" }}
-            # To add basic authentication to v2 use auth_basic setting.
+            {{if key "docker-registry/users" | parseBool}}
+            # Note: when consul-template in the base image is upgraded to v0.17 or newer
+            # we'll need to change the above conditional to `if key_exists "docker-registry/users"`
             auth_basic "Autopilot Pattern Docker Registry realm";
             auth_basic_user_file /etc/nginx/conf.d/nginx.htpasswd;
             {{ end }}
