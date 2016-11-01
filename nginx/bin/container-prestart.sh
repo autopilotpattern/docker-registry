@@ -20,7 +20,7 @@ preStart() {
 
     # Generate htpasswd
     echo "generated htpasswd file in auth/nginx.htpasswd"
-    htpasswd "${REGISTRYUSER}" "${REGISTRYPASS}" > auth/nginx.htpasswd
+    htpasswd -b -c /etc/nginx/conf.d/nginx.htpasswd "${REGISTRYUSER}" "${REGISTRYPASS}"
 
     # Drop a key/value item in Consul for this user/pass
     # Future feature: allow management of users via Consul k/v store, but for now it's still a single user
