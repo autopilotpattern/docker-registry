@@ -1,0 +1,24 @@
+{
+  "consul": "{{ if .CONSUL_AGENT }}localhost{{ else }}{{ .CONSUL }}{{ end }}:8500",
+  "preStart": "/usr/local/bin/manage.sh preStart",
+  "services": [
+    {
+      "name": "docker-registry",
+      "port": 5000,
+      "health": "true",
+      "poll": 10,
+      "ttl": 25
+    }
+  ],
+  "coprocesses": [{{ if .CONSUL_AGENT }}
+    {
+      "command": ["/usr/local/bin/consul", "agent",
+                  "-data-dir=/data",
+                  "-config-dir=/config",
+                  "-rejoin",
+                  "-retry-join", "{{ .CONSUL }}",
+                  "-retry-max", "10",
+                  "-retry-interval", "10s"],
+      "restarts": "unlimited"
+    }{{ end }}]
+}

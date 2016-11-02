@@ -1,0 +1,31 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+storage:
+  cache:
+    blobdescriptor: inmemory
+  {{ $storagedriver := env "STORAGEDRIVER" }}
+  {{ if eq $storagedriver "filesystem" }}
+  filesystem:
+    rootdirectory: /var/lib/registry
+  {{ end }}
+  {{ if eq $storagedriver "s3" }}
+  s3:
+    accesskey: {{ env "S3ACCESSKEY" }}
+    secretkey: {{ env "S3SECRETKEY" }}
+    region: {{ env "S3REGION" }}
+    bucket: {{ env "S3BUCKET" }}
+    encrypt: false
+    secure: false
+  {{ end }}
+http:
+  secret: {{ env "HTTPSECRET" }}
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
