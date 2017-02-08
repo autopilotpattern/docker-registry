@@ -1,0 +1,30 @@
+version: 0.1
+log:
+  level: info
+  formatter: text
+  fields:
+    service: registry
+    environment: ENVIRON
+
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+    maxthreads: 100
+
+auth:
+  htpasswd:
+    realm: DOMAIN
+    path: /auth/htpasswd
+
+http:
+    host: https://DOMAIN:PORT
+    addr: :443
+    secret: SECRET
+    headers:
+        X-Content-Type-Options: [nosniff]
+    tls:
+      letsencrypt:
+        cachefile: /var/lib/cache-file
+        email: EMAIL
+    debug:
+      addr: localhost:5001
