@@ -1,0 +1,7 @@
+# MacOS annoyances
+.DS_Store
+**/.DS_Store
+
+# generated content
+.git*
+docker-compose.yml*

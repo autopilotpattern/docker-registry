@@ -1,0 +1,16 @@
+registry:
+    image: autopilotpattern/registry
+    restart: always
+    ports:
+      - PORT:443
+    environment:
+      - DOMAIN=DOMAIN
+      - EMAIL=EMAIL
+      - USERNAME=USERNAME
+      - PASSWORD=PASSWORD
+      - SECRET=SECRET
+      - PORT=PORT
+      - ENVIRON=ENVIRON
+    labels:
+      - triton.cns.services=CNS_NAME
+      - com.joyent.package=PACKAGE_NAME
